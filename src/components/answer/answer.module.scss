@@ -1,0 +1,23 @@
+$borderStyle: 1px solid grey !important;
+
+.answer {
+  background-color: inherit;
+  border-top: $borderStyle;
+  border-left: $borderStyle;
+  border-right: $borderStyle;
+  cursor: pointer;
+  
+  &:last-child {
+    border-bottom: $borderStyle;
+  }
+  
+  &:hover {
+    background-color: gray;
+  }
+}
+
+.dot {
+  margin-right: 15px;
+  width: 10px;
+  height: 10px;
+}

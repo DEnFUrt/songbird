@@ -1,0 +1,45 @@
+
+$rhap_theme-color: #008929e0;   // Color of all buttons and volume/progress indicators 
+$rhap_background-color: none; // Color of the player background 
+$rhap_bar-color:  #4a855ce0;
+// $rhap_time-color: #333;       // Font color of current time and duration 
+$rhap_font-family: inherit;   // Font family of current time and duration 
+
+.rhap_container {
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+
+  button {
+    border: 0 !important;
+    outline: 0 !important;
+  }
+
+  .rhap_main {
+
+    .rhap_progress-section {
+      .rhap_progress-container {
+        border: 0 !important;
+        outline: 0 !important;
+      }
+    }
+
+    .rhap_controls-section {
+      .rhap_main-controls {
+        .rhap_button-clear.rhap_main-controls-button.rhap_play-pause-button {
+          border: 0 !important;
+          outline: 0 !important;
+        }
+      }
+      
+      .rhap_volume-controls {
+        .rhap_volume-container div {
+          border: 0 !important;
+          outline: 0 !important;
+        }
+      }
+    }
+  }
+} 
+
+@import 'react-h5-audio-player/src/styles.scss';

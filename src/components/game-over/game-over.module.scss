@@ -1,0 +1,76 @@
+.gameOver_block {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  
+  &__body {
+    margin: 25px 5px 50px 5px;
+    text-align: center;
+    
+    img {
+      width: 150px;
+      height: 150px;
+      display: inline-block;
+
+      @media (max-width: 470px) {
+        display: none;
+      }
+    }
+
+    .bird {
+      border-left: solid 3px gray;
+      margin-left: 1rem;
+      padding-left: 1rem;
+      min-height: 150px;
+
+      @media (max-width: 470px) {
+        border: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      p:first-child {
+        padding: 0;
+        // margin: 0;
+        font-size: 1.5rem;
+        
+          @media (max-width: 470px) {
+            font-size: 1rem;
+          }
+        }
+    
+        p {
+          font-size: 1rem;
+          
+            @media (max-width: 470px) {
+              font-size: 0.85rem;
+            }
+          }
+    }
+
+    p:first-child {
+    font-size: 3rem;
+    
+      @media (max-width: 470px) {
+        font-size: 2rem;
+      }
+    }
+
+    p {
+      font-size: 1.5rem;
+      
+        @media (max-width: 470px) {
+          font-size: 1rem;
+        }
+      }
+  }
+
+  &__hr {
+    border: none; 
+    color: gray; 
+    background-color: gray; 
+    height: 1px; 
+  }
+}

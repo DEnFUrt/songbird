@@ -1,0 +1,16 @@
+.question_block {
+  padding: 20px;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+
+  &__body {
+    margin: 15px;
+  }
+
+  &__hr {
+    border: none; 
+    color: gray; 
+    background-color: gray; 
+    height: 1px; 
+  }
+}
