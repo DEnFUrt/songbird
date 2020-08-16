@@ -1,14 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import Spinner from '../spinner';
 import {connect} from 'react-redux';
-import {answerSelected, dataError} from '../../actions';
+import {answerSelected} from '../../actions';
 import cl from 'classnames';
 
 import s from './answer.module.scss';
 
 const Answer = ({
   answer,            /* вопрос из AnswersList */
-  correctAnswer,     /* номер правильного ответа из store */
+  correctAnswerId,   /* номер правильного ответа из store */
   roundEnded,        /* флаг окончания раунда из store */
   loading,           /* флаг загрузки данных из store */
   answerSelected,
@@ -28,7 +28,7 @@ const Answer = ({
       return
     };
 
-    id === correctAnswer ?
+    id === correctAnswerId ?
     setQuessWho(true) :
     setQuessWho(false);
   };
@@ -48,14 +48,13 @@ const mapStateToProps = state => {
     loading: state.answersLoading,
     errorState: state.errorState,
     roundNumber: state.roundNumber,
-    correctAnswer: state.correctAnswer,
+    correctAnswerId: state.correctAnswerId,
     roundEnded: state.roundEnded,        
   }
 };
 
 const mapDispatchToProps = {
   answerSelected,
-  dataError,
 };
 
 export default (connect(mapStateToProps, mapDispatchToProps)(Answer));

@@ -64,7 +64,6 @@ const mapStateToProps = state => {
   return {
     answers: state.answers,
     loading: state.answersLoading,
-    errorState: state.errorState,
     roundEnded: state.roundEnded,
     currentAnswerId: state.currentAnswerId,        
   }

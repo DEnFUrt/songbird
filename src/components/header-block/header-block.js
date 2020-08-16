@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
-import {paginationLoaded, paginationRequested, dataError} from '../../actions';
+import {paginationLoaded, paginationRequested} from '../../actions';
 import WithRestService from '../hoc';
 import cl from 'classnames';
 
@@ -15,8 +15,7 @@ const HeaderBlock = ({
   loading,                  /* флаг загрузки данных rest api */
   RestService,              /* api сервиса получения данных из DB JSON */
   paginationRequested,      /* процесс загрузки данных */
-  paginationLoaded,         /*  */
-  dataError
+  paginationLoaded,         /* загрузка данных store  */
 }) => {
 
   const computePgnItems = (items) => {
@@ -38,9 +37,8 @@ const HeaderBlock = ({
       .then(res => {
         paginationLoaded(res);
       })
-      .catch(err => dataError(err.message));
     },
-    [RestService, dataError, paginationRequested, paginationLoaded]
+    [RestService, paginationRequested, paginationLoaded]
   ); 
 
   return (
@@ -56,7 +54,6 @@ const mapStateToProps = state => {
   return {
     pagination: state.pagination,
     loading: state.paginationLoading,
-    errorState: state.errorState,
     roundNumber: state.roundNumber,        
     gameOver: state.gameOver,           
     totalScore: state.totalScore,
@@ -66,7 +63,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   paginationLoaded,
   paginationRequested,
-  dataError,
 };
 
 export default WithRestService()(connect(mapStateToProps, mapDispatchToProps)(HeaderBlock));

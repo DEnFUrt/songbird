@@ -2,17 +2,13 @@ const initialState = {
   answers: [],                /* список вопросов раунда из rest api */
   pagination: {},             /* список раундов из rest api */  
   roundNumber: 0,             /* номер раунда, игра начинается с 0 */
-  correctAnswer: null,        /* номер правильного ответа, от 1 до 6 */
+  correctAnswerId: null,      /* номер правильного ответа, от 1 до 6 */
   currentAnswerId: null,      /* номер выбранного ответа*/
   roundEnded: false,          /* флаг окончания раунда, по умолчанию false*/
   paginationLoading: true,    /* флаг загрузки данных pagination rest api */
   answersLoading: true,       /* флаг загрузки данных answers rest api */
   gameOver: false,            /* флаг окончания игры */
   totalScore: 0,              /* счет игры */
-  errorState: {
-    error: false,
-    errorMessage: null,
-  },
 }
 
 const reducer = (state = initialState, action) => {
@@ -65,7 +61,7 @@ const reducer = (state = initialState, action) => {
       
       switch (state.roundEnded) {
         case false:
-          isRoundEnded = selectedAnswerId === state.correctAnswer ? true : false;    
+          isRoundEnded = selectedAnswerId === state.correctAnswerId ? true : false;    
           break;
         
         case true:
@@ -84,17 +80,6 @@ const reducer = (state = initialState, action) => {
       };
     };
   
-    case 'DATA_ERROR':
-      return {
-        ...state,
-        answersLoading: false,
-        paginationLoading: false,
-        errorState: {
-          error: true,
-          errorMessage: action.errorMessage,
-        },
-      };
-
     case 'ROUND_NEXT': {
       let incRound = ++state.roundNumber;
       let isGameOver = false;
@@ -113,7 +98,13 @@ const reducer = (state = initialState, action) => {
         roundNumber: incRound,
         currentAnswerId: null,
       }
-    }
+    };
+
+    case 'SELECT_RANDOM_QUESTION': 
+      return {
+        ...state,
+        correctAnswerId: action.payload,
+      }
       
     default:
       return state;
