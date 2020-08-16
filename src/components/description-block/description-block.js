@@ -2,42 +2,45 @@ import React from 'react';
 import Spinner from '../spinner';
 import ViewImage from '../view-image';
 import Player from '../player';
+import {connect} from 'react-redux';
 import cl from 'classnames';
-
-import birdsData from '../../birdDB';
 
 import s from './description-block.module.scss';
 
 const DescriptionBlock = ({
-  roundNumber = 2,            /* номер раунда из store */  
-  currentAnswerId = null,     /* номер текущего вопроса из store, по умолчанию null*/
-  roundEnded = false,         /* флаг окончания раунда из store */
-  loading = false             /* флаг загрузки данных из store */
+  answers,            /* список вопросов раунда из store */
+  currentAnswerId,    /* номер текущего вопроса из store, по умолчанию null*/
+  roundEnded,         /* флаг окончания раунда из store */
+  loading,            /* флаг загрузки данных из store */
 }) => {
 
-  const currentAnswer = {
-    ...birdsData[roundNumber].filter(item => item.id === currentAnswerId)
-    .reduce((acc, item) => ({...acc, ...item}), {})
+  const computeCurrentAnswer = () => {
+    if (answers.length === 0) {
+      return null
+    }
+
+    return {
+      ...answers.filter(item => item.id === currentAnswerId)
+      .reduce((acc, item) => ({...acc, ...item}), {})
+    };
   };
 
-  const dataDescription = {
-    titleRus: currentAnswer.name,
-    titleLat: currentAnswer.species,
-    imgSrc: currentAnswer.image,
-    text: currentAnswer.description,
-    audioSrc: roundEnded ?
-                currentAnswer.audio :
-                null
-  }
+  const setDataDescription = () => {
+    const currentAnswer = computeCurrentAnswer();
+    
+    if (currentAnswer !== null) {
+      return {
+          titleRus: currentAnswer.name,
+          titleLat: currentAnswer.species,
+          imgSrc: currentAnswer.image,
+          text: currentAnswer.description,
+          audioSrc: roundEnded ?
+                      currentAnswer.audio :
+                      null
+        }
+    }
+  };
 
-  /* const titleRus = currentAnswer.name;
-  const titleLat = currentAnswer.species;
-  const imgSrc = currentAnswer.image;
-  const text = currentAnswer.description;
-
-  const audioSrc = roundEnded ?
-    currentAnswer.audio : null; */
-  
   if (loading) {
     return (
       <div className="col-md-6">
@@ -51,13 +54,23 @@ const DescriptionBlock = ({
   return (
     <div className="col-md-6">
       <div className={cl(s.card, 'card', 'bg-dark', 'd-flex')} >
-        { currentAnswerId === null ? <ViewInvitation /> : <ViewDescription {...{dataDescription}} /> }
+        { currentAnswerId === null ? <ViewInvitation /> : <ViewDescription dataDescription={setDataDescription()} /> }
       </div>
     </div>
   )
 };
 
-export default DescriptionBlock;
+const mapStateToProps = state => {
+  return {
+    answers: state.answers,
+    loading: state.answersLoading,
+    errorState: state.errorState,
+    roundEnded: state.roundEnded,
+    currentAnswerId: state.currentAnswerId,        
+  }
+};
+
+export default (connect(mapStateToProps)(DescriptionBlock));
 
 const ViewDescription = ({dataDescription}) => {
   

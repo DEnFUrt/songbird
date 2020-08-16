@@ -1,21 +1,22 @@
 import React from 'react';
+import {connect} from 'react-redux';
+import {roundNext} from '../../actions';
 import cl from 'classnames';
 
 import s from './btn-level.module.scss';
 
 const BtnLevel = ({
-  roundNumber = 2,        /* номер раунда из store */
-  correctAnswer = 2,      /* номер правильного ответа из store */
-  roundEnded = false,     /* флаг окончания раунда из store */
-  btnTitle = 'Next Level' /* текст кнопки из props */
+  roundEnded,             /* флаг окончания раунда из store */
+  btnTitle = 'Дальше',    /* текст кнопки из props */
+  roundNext               /* action переход на следующий уровень игры */
 }) => {
   
   const onStep = () => {
-
     if (roundEnded !== true) {
       return
     }
-    return console.log('########### Click Next');
+    
+    roundNext();
   }
 
   return (
@@ -30,4 +31,14 @@ const BtnLevel = ({
   )
 }
 
-export default BtnLevel;
+const mapStateToProps = state => {
+  return {
+    roundEnded: state.roundEnded,
+  }
+};
+
+const mapDispatchToProps = {
+  roundNext,
+};
+
+export default (connect(mapStateToProps, mapDispatchToProps)(BtnLevel));

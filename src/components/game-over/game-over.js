@@ -1,13 +1,13 @@
 import React from 'react';
 import BtnLevel from '../btn-level';
+import {connect} from 'react-redux';
 import cl from 'classnames';
 
 import s from './game-over.module.scss';
 import imgBirding from './birdV.png';
 
 const GameOver = ({
-  /* randomAnswer, */   /*  */ 
-  totalScore = 0,   /* счет игры из store */
+  totalScore,   /* счет игры из store */
   gameOver = true, /* флаг окончания игры из store */
   
 }) => {
@@ -20,13 +20,19 @@ const GameOver = ({
         <p className={cl('lead')}>Поздравляем!</p>
         <p className={cl('lead')}>Вы прошли викторину и набрали {totalScore} из 30 возможных баллов</p>
         <hr className={cl(s.gameOver_block__hr, 'my-4')} />
-        {totalScore !== 30 ? <BtnLevel {...{btnTitle}} /> : <Сongratulation /> }
+        {totalScore < 30 ? <BtnLevel {...{btnTitle}} /> : <Сongratulation /> }
       </div>
     </div>
   )
 };
 
-export default GameOver;
+const mapStateToProps = state => {
+  return {
+    totalScore: state.totalScore,
+  }
+};
+
+export default (connect(mapStateToProps)(GameOver));
 
 const Сongratulation = () => {
   return (

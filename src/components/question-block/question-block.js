@@ -2,9 +2,10 @@ import React from 'react';
 import Player from '../player';
 import Spinner from '../spinner';
 import ViewImage from '../view-image';
+import {connect} from 'react-redux';
+import {answersRequested, dataError} from '../../actions';
+import WithRestService from '../hoc';
 import cl from 'classnames';
-
-import birdsData from '../../birdDB';
 
 import s from './question-block.module.scss';
 import imgDefault from './bird.png';
@@ -14,11 +15,14 @@ const QuestionBlock = ({
   roundNumber = 2,    /* номер раунда из store */
   correctAnswer = 2,  /* номер правильного ответа из store */
   roundEnded = false, /* флаг окончания раунда из store */
-  loading = false     /* флаг загрузки данных из store */
+  loading = false,    /* флаг загрузки данных из store */
+  RestService,        /* api сервиса получения данных из DB JSON */
 }) => {
   
+  
+
   const randomAnswer = {
-    ...birdsData[roundNumber].filter(item => item.id === correctAnswer)
+    ...RestService.birds[roundNumber].filter(item => item.id === correctAnswer)
     .reduce((acc, item) => ({...acc, ...item}), {})
   };
   
@@ -35,9 +39,26 @@ const QuestionBlock = ({
   console.log('Правильный ответ - ', correctAnswer);
 
   return <ViewQuestion {...{imgSrc, title, audioSrc, loading}}/>
-}
+};
 
-export default QuestionBlock;
+const mapStateToProps = state => {
+  return {
+    pagination: state.pagination,
+    loading: state.loading,
+    errorState: state.errorState,
+    roundNumber: state.roundNumber,        
+    gameOver: state.gameOver,           
+    totalScore: state.totalScore,
+  }
+};
+
+const mapDispatchToProps = {
+
+  answersRequested,
+  dataError,
+};
+
+export default WithRestService()(connect(mapStateToProps, mapDispatchToProps)(QuestionBlock));
 
 const ViewQuestion = ({imgSrc, title, audioSrc, loading}) => {
   

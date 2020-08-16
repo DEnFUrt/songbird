@@ -3,20 +3,27 @@ import QuestionBlock from '../question-block';
 import BtnLevel from '../btn-level';
 import GameBlock from '../game-block';
 import GameOver from '../game-over';
+import {connect} from 'react-redux';
 
 const BodyBlock = ({
-  gameOver = false, /* флаг окончания игры из store */
+  gameOver, /* флаг окончания игры из store */
 }) => {
   
   return gameOver ? <GameOver /> : <ViewGame /> 
 };
 
-export default BodyBlock;
+const mapStateToProps = state => {
+  return {
+    gameOver: state.gameOver,
+  }
+};
+
+export default (connect(mapStateToProps)(BodyBlock));
 
 const ViewGame = () => {
   return (
     <>
-      <QuestionBlock />
+      {/* <QuestionBlock /> */}
       <GameBlock />
       <BtnLevel />
     </>

@@ -1,26 +1,55 @@
-const menuLoaded = (newMenu) => {
+const paginationLoaded = (newPagination) => {
   return {
-    type: 'MENU_LOADED',
-    payload: newMenu,
+    type: 'PAGINATION_LOADED',
+    payload: newPagination,
   }
 }
 
-const menuRequested = () => {
+const answersLoaded = (newAnswers) => {
   return {
-    type: 'MENU_REQUESTED',
+    type: 'ANSWERS_LOADED',
+    payload: newAnswers,
   }
 }
 
-const menuError = (newMessage) => {
+const paginationRequested = () => {
   return {
-    type: 'MENU_ERROR',
+    type: 'PAGINATION_REQUESTED',
+  }
+}
+
+const answersRequested = () => {
+  return {
+    type: 'ANSWERS_REQUESTED',
+  }
+}
+
+const dataError = (newMessage) => {
+  return {
+    type: 'DATA_ERROR',
     errorMessage: newMessage,
   }
 }
 
+const roundNext = () => {
+  return {
+    type: 'ROUND_NEXT',
+  }
+}
+
+const answerSelected = (newСurrentAnswerId) => {
+  return {
+    type: 'ANSWER_SELECTED',
+    payload: newСurrentAnswerId,
+  }
+}
+
 export {
-  menuLoaded,
-  menuRequested,
-  menuError,
-  
+  paginationLoaded,
+  answersLoaded,
+  paginationRequested,
+  answersRequested,
+  dataError,
+  roundNext,
+  answerSelected,  
 }

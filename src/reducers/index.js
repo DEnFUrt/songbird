@@ -1,50 +1,119 @@
 const initialState = {
-  birdItems: [],
-  loading: true,
+  answers: [],                /* список вопросов раунда из rest api */
+  pagination: {},             /* список раундов из rest api */  
+  roundNumber: 0,             /* номер раунда, игра начинается с 0 */
+  correctAnswer: null,        /* номер правильного ответа, от 1 до 6 */
+  currentAnswerId: null,      /* номер выбранного ответа*/
+  roundEnded: false,          /* флаг окончания раунда, по умолчанию false*/
+  paginationLoading: true,    /* флаг загрузки данных pagination rest api */
+  answersLoading: true,       /* флаг загрузки данных answers rest api */
+  gameOver: false,            /* флаг окончания игры */
+  totalScore: 0,              /* счет игры */
   errorState: {
     error: false,
     errorMessage: null,
   },
-  birdRandom: [],
-
 }
 
-// const findItem = (arr, id) => arr.find(data => data.id === id);
-// const getCost = (arr) => arr.reduce((acc, item) => acc + (+item.price * +item.count), 0);
-
 const reducer = (state = initialState, action) => {
-
   switch (action.type) {
-    case 'MENU_LOADED':
+    case 'PAGINATION_LOADED':
       return {
         ...state,
-        birdItems: action.payload,
-        loading: false,
+        pagination: action.payload,
+        paginationLoading: false,
+        errorState: {
+          error: false,
+          errorMessage: null,
+        },
+      }
+
+    case 'ANSWERS_LOADED':
+      return {
+        ...state,
+        answers: action.payload,
+        answersLoading: false,
         errorState: {
           error: false,
           errorMessage: null,
         },
       };
 
-    case 'MENU_REQUESTED':
-        return {
-          ...state,
-          loading: true,
-          errorState: {
-            error: false,
-            errorMessage: null,
-          },
-        };  
-  
-    case 'MENU_ERROR':
+    case 'PAGINATION_REQUESTED':
       return {
         ...state,
-        loading: false,
+        paginationLoading: true,
+        errorState: {
+          error: false,
+          errorMessage: null,
+        },
+      };
+      
+    case 'ANSWERS_REQUESTED':
+      return {
+        ...state,
+        answersLoading: true,
+        errorState: {
+          error: false,
+          errorMessage: null,
+        },
+      };
+
+    case 'ANSWER_SELECTED': {
+      const selectedAnswerId = action.payload;
+      let isRoundEnded = false;
+      
+      switch (state.roundEnded) {
+        case false:
+          isRoundEnded = selectedAnswerId === state.correctAnswer ? true : false;    
+          break;
+        
+        case true:
+          isRoundEnded = true; 
+          break ;
+
+        default:
+          isRoundEnded = state.roundEnded;
+          break;
+      }
+
+      return {
+        ...state,
+        currentAnswerId: selectedAnswerId,
+        roundEnded: isRoundEnded,
+      };
+    };
+  
+    case 'DATA_ERROR':
+      return {
+        ...state,
+        answersLoading: false,
+        paginationLoading: false,
         errorState: {
           error: true,
           errorMessage: action.errorMessage,
         },
       };
+
+    case 'ROUND_NEXT': {
+      let incRound = ++state.roundNumber;
+      let isGameOver = false;
+      let isRoundEnded = false;
+      
+      if (incRound > 5) {
+        incRound = -1;
+        isGameOver = true;
+        isRoundEnded = true;
+      }
+
+      return {
+        ...state,
+        roundEnded: isRoundEnded,
+        gameOver: isGameOver,
+        roundNumber: incRound,
+        currentAnswerId: null,
+      }
+    }
       
     default:
       return state;

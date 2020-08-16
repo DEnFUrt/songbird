@@ -1,21 +1,29 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Spinner from '../spinner';
+import {connect} from 'react-redux';
+import {answerSelected, dataError} from '../../actions';
 import cl from 'classnames';
 
 import s from './answer.module.scss';
 
 const Answer = ({
   answer,            /* вопрос из AnswersList */
-  correctAnswer = 3, /* номер правильного ответа из store */
-  roundEnded = false, /* флаг окончания раунда из store */
-  loading = false     /* флаг загрузки данных из store */
+  correctAnswer,     /* номер правильного ответа из store */
+  roundEnded,        /* флаг окончания раунда из store */
+  loading,           /* флаг загрузки данных из store */
+  answerSelected,
 }) => {
   
+  const [guessWho, setQuessWho] = useState(null);
   const {id, name} = answer;
   
-  const [guessWho, setQuessWho] = useState(null);
+  useEffect(() => {
+    setQuessWho(null);
+  }, [answer]);
 
-  const computeQuessWho = () => {
+  const computeQuessWho = (id) => {
+    answerSelected(id);
+
     if (roundEnded) {
       return
     };
@@ -32,15 +40,30 @@ const Answer = ({
 
   return loading ?
       <ViewSpinner /> :  
-      <ViewAnswer {...{computeQuessWho, clName, name}} />
+      <ViewAnswer {...{computeQuessWho, clName, name, id}} />
 };
 
-export default Answer;
+const mapStateToProps = state => {
+  return {
+    loading: state.answersLoading,
+    errorState: state.errorState,
+    roundNumber: state.roundNumber,
+    correctAnswer: state.correctAnswer,
+    roundEnded: state.roundEnded,        
+  }
+};
 
-const ViewAnswer = ({computeQuessWho, clName, name}) => {
+const mapDispatchToProps = {
+  answerSelected,
+  dataError,
+};
+
+export default (connect(mapStateToProps, mapDispatchToProps)(Answer));
+
+const ViewAnswer = ({computeQuessWho, clName, name, id}) => {
   return (
     <li className={cl(s.answer, 'list-group-item')}
-      onClick={() => computeQuessWho()}
+      onClick={() => computeQuessWho(id)}
     >
       <span className={clName}></span>
       {name}
