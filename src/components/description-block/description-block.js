@@ -35,8 +35,8 @@ const DescriptionBlock = ({
           imgSrc: currentAnswer.image,
           text: currentAnswer.description,
           audioSrc: roundEnded ?
-                      currentAnswer.audio :
-                      null
+                    currentAnswer.audio :
+                    null
         }
     }
   };

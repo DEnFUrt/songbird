@@ -23,7 +23,7 @@ export default (connect(mapStateToProps)(BodyBlock));
 const ViewGame = () => {
   return (
     <>
-      {/* <QuestionBlock /> */}
+      <QuestionBlock />
       <GameBlock />
       <BtnLevel />
     </>

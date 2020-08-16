@@ -10,7 +10,6 @@ import s from './answers-list.module.scss';
 const AnswersList = ({
   answers,            /* список вопросов раунда из store */
   roundNumber,        /* номер раунда из store */
-  loading,            /* флаг загрузки данных rest api */
   errorState,
   RestService,        /* api сервиса получения данных из DB JSON */
   answersRequested,   /* процесс загрузки данных */
@@ -42,7 +41,6 @@ const AnswersList = ({
   return (
     <div className="col-md-6">
       <Lists answerView={computeAnswerView(answers)} />
-      {/* <Lists {...{answerView}} />  */}
     </div>
   )
 };

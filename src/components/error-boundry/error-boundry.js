@@ -2,29 +2,50 @@ import React, {Component} from 'react';
 import Error from '../error';
 
 export default class ErrorBoundry extends Component {
-    
-    state = {
-        error: false,
-        errorMessage: undefined,
-    }
+	
+	state = {
+		error: false,
+		errorData: {
+			message: undefined,
+			name: undefined,
+			stack: undefined,
+		}
+	}
 
-    onSetState(message) {
-        this.setState({
-            error: true,
-            errorMessage: message,
-        });
-    }
+	onSetState(data) {
+		this.setState({
+			error: true,
+			errorData: data,
+		});
+	}
 
-    componentDidCatch(err) {
-        this.onSetState(err.message);
-    }
+	componentDidCatch(err) {
+		const {name, message, stack} = err;
 
-    render() {
+		if (stack) {
+			this.onSetState(
+				{
+					message,
+					name,
+					stack,
+				}
+			);
+		} else {
+			this.onSetState(
+				{
+					message,
+					name,
+				}
+			);
+		}
+	}
 
-        if (this.state.error) {
-            return <Error message={this.state.errorMessage} />
-        }
-        
-        return this.props.children;
-    }
+	render() {
+
+		if (this.state.error) {
+			return <Error errorData={this.state.errorData} />
+		}
+		
+		return this.props.children;
+	}
 }

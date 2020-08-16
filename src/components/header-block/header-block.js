@@ -47,7 +47,6 @@ const HeaderBlock = ({
     <>
       <Header {...{totalScore}}/>
       { !loading ? <Pagination pgnItems={computePgnItems(pagination)} /> : null }
-      {/* <Pagination {...{pgnItems}} /> */}
     </>
 
   );
