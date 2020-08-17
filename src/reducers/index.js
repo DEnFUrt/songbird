@@ -2,8 +2,8 @@ const initialState = {
   answers: [],                /* список вопросов раунда из rest api */
   pagination: {},             /* список раундов из rest api */  
   roundNumber: 0,             /* номер раунда, игра начинается с 0 */
-  correctAnswerId: null,      /* номер правильного ответа, от 1 до 6 */
-  currentAnswerId: null,      /* номер выбранного ответа*/
+  correctAnswerId: null,      /* номер правильного ответа, от 1 до 6 включительно */
+  currentAnswerId: null,      /* номер выбранного ответа */
   roundEnded: false,          /* флаг окончания раунда, по умолчанию false*/
   paginationLoading: true,    /* флаг загрузки данных pagination rest api */
   answersLoading: true,       /* флаг загрузки данных answers rest api */

@@ -5,7 +5,7 @@ import s from './error.module.scss';
 
 const Error = ({errorData}) => {
 	const [showBody, setShowBody] = useState(false);
-	const {message = 'Неопознанная ошибка!', name, stack} = errorData;
+	const {message = 'Ошибка не опознана!', name, stack} = errorData;
 	
 	const onToggleBody = () => {
 		setShowBody(!showBody);
