@@ -8,8 +8,6 @@ import imgBirding from './birdV.png';
 
 const GameOver = ({
   totalScore,   /* счет игры из store */
-  gameOver = true, /* флаг окончания игры из store */
-  
 }) => {
 
   const btnTitle = 'Хотите попробовать еще раз?';

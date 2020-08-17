@@ -16,11 +16,3 @@ const Sp = () => {
 		</div>
 	)
 }
-
-/* const Sp1 = () => {
-	return (
-		<div className="ml-3 spinner-grow spinner-grow-sm text-secondary" role="status">
-			<span className="sr-only">Loading...</span>
-		</div>
-	)
-} */

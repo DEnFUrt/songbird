@@ -21,8 +21,12 @@ const BtnLevel = ({
 
   return (
     <button 
-      className={cl(s.btn__custom, 'btn', {'bg-success': roundEnded}, {[s.btn_disabled]: !roundEnded})}
-      
+      className={
+        cl(s.btn__custom,
+        'btn', 
+        {'bg-success': roundEnded},
+        {[s.btn_disabled]: !roundEnded})
+      }
       disabled={!roundEnded}
       onClick={() => onStep()}
     >

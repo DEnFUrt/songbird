@@ -14,8 +14,6 @@ export default restService;
 
 export default class RestService {
 
-  // _apiBase = 'src/';
-
   async _getData(url) {
     const res = await import(`../${url}`);
 

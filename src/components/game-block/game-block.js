@@ -1,6 +1,6 @@
 import React from 'react';
 import AnswersList from '../answers-list';
-import DescriptionBlock from '../description-block/description-block';
+import DescriptionBlock from '../description-block';
 
 const GameBlock = () => {
   return (

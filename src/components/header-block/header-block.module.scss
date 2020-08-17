@@ -26,32 +26,11 @@ $height: 50px;
 
   .pgn_block__item {
     padding: 6px 30px 6px 30px;
-    
-    // .pgn_block__link {
-    //   background-color:inherit;
-    //   color: inherit;
-    //   text-decoration: none;
-    //   cursor: default;
-    //   outline: 0 !important;
-    //   border: 0 !important;
-          
-    //   &:visited,
-    //   &:hover,
-    //   &:focus,
-    //   &:active {
-    //     background-color:inherit;  
-    //     text-decoration: inherit;
-    //     color: inherit;
-    //     outline: inherit;
-    //     border: inherit;
-    //   }
-    // }
   }
 
   .active {
     background-color: $bg_color;
   }
-
 }
 
 
