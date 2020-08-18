@@ -11,7 +11,7 @@ const Answer = ({
   correctAnswerId,   /* номер правильного ответа из store */
   roundEnded,        /* флаг окончания раунда из store */
   loading,           /* флаг загрузки данных из store */
-  answerSelected,
+  answerSelected,    /* обработчик выбора ответа */
 }) => {
   
   const [guessWho, setQuessWho] = useState(null);

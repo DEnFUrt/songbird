@@ -9,6 +9,8 @@ const initialState = {
   answersLoading: true,       /* флаг загрузки данных answers rest api */
   gameOver: false,            /* флаг окончания игры */
   totalScore: 0,              /* счет игры */
+  currentScore: 5,            /* текущий счет раунда, начинается с 5 баллов */
+  openingAnswers: [],         /* отмеченные вопросы текущего раунда */
 }
 
 const reducer = (state = initialState, action) => {
@@ -18,10 +20,6 @@ const reducer = (state = initialState, action) => {
         ...state,
         pagination: action.payload,
         paginationLoading: false,
-        errorState: {
-          error: false,
-          errorMessage: null,
-        },
       }
 
     case 'ANSWERS_LOADED':
@@ -29,74 +27,76 @@ const reducer = (state = initialState, action) => {
         ...state,
         answers: action.payload,
         answersLoading: false,
-        errorState: {
-          error: false,
-          errorMessage: null,
-        },
       };
 
     case 'PAGINATION_REQUESTED':
       return {
         ...state,
         paginationLoading: true,
-        errorState: {
-          error: false,
-          errorMessage: null,
-        },
       };
       
     case 'ANSWERS_REQUESTED':
       return {
         ...state,
         answersLoading: true,
-        errorState: {
-          error: false,
-          errorMessage: null,
-        },
       };
 
     case 'ANSWER_SELECTED': {
-      const selectedAnswerId = action.payload;
-      let isRoundEnded = false;
+      const selectAnswerId = action.payload;
+      let isRoundEnded = state.roundEnded; 
+      let tempTotalScore = state.totalScore;
+      let tempCurrentScore = state.currentScore;
+      let tempOpeningAnswers = [];
       
-      switch (state.roundEnded) {
-        case false:
-          isRoundEnded = selectedAnswerId === state.correctAnswerId ? true : false;    
-          break;
-        
-        case true:
-          isRoundEnded = true; 
-          break ;
+      if (!state.openingAnswers.includes(selectAnswerId)) {
+        tempOpeningAnswers = [...state.openingAnswers, selectAnswerId];
 
-        default:
-          isRoundEnded = state.roundEnded;
-          break;
+        switch (isRoundEnded) {
+          case false:
+            
+            if (selectAnswerId === state.correctAnswerId) {
+              isRoundEnded = true;
+              tempTotalScore += tempCurrentScore; 
+            } else {
+              tempCurrentScore -= 1;
+            }
+
+            break;
+          
+          default:
+            break;
+        }
+
+      } else {
+        tempOpeningAnswers = [...state.openingAnswers];
       }
 
       return {
         ...state,
-        currentAnswerId: selectedAnswerId,
+        currentAnswerId: selectAnswerId,
         roundEnded: isRoundEnded,
+        openingAnswers: tempOpeningAnswers,
+        totalScore: tempTotalScore,
+        currentScore: tempCurrentScore,
       };
     };
-  
-    case 'ROUND_NEXT': {
-      let incRound = ++state.roundNumber;
-      let isGameOver = false;
-      let isRoundEnded = false;
-      
-      if (incRound > 5) {
-        incRound = -1;
-        isGameOver = true;
-        isRoundEnded = true;
-      }
 
+    case 'ROUND_NEXT': {
+      const incRound = state.roundNumber < 6 ? state.roundNumber + 1 : 0;
+      const isGameOver = incRound < 6 ? false : true;
+      const isRoundEnded = incRound < 6 ? false : true;
+      
+      const tempTotalScore = (incRound > 0 && incRound <= 6)  ? state.totalScore : 0;
+      
       return {
         ...state,
         roundEnded: isRoundEnded,
         gameOver: isGameOver,
         roundNumber: incRound,
         currentAnswerId: null,
+        currentScore: 5,
+        openingAnswers: [],
+        totalScore: tempTotalScore,
       }
     };
 
@@ -104,8 +104,8 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         correctAnswerId: action.payload,
-      }
-      
+      };
+ 
     default:
       return state;
   }
