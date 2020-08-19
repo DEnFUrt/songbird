@@ -26,10 +26,18 @@ $borderStyle: 1px solid grey !important;
 
         @media (min-width: 768px) and (max-width: 992px) {
           justify-content: center;
+
+          img {
+            margin: 0 !important;
+          }
         }
 
         @media (max-width: 470px) {
           justify-content: center;
+
+          img {
+            margin: 0 !important;
+          }
         }
 
         .card_lists {
