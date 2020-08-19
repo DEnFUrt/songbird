@@ -1,7 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import Spinner from '../spinner';
 import {connect} from 'react-redux';
 import {answerSelected} from '../../actions';
+import failSong from '../../media/failure.mp3';
+import succSong from '../../media/success.mp3';
 import cl from 'classnames';
 
 import s from './answer.module.scss';
@@ -15,8 +17,26 @@ const Answer = ({
 }) => {
   
   const [guessWho, setQuessWho] = useState(null);
+  const refContainer = useRef(null);
   const {id, name} = answer;
   
+  useEffect(() => {
+    switch (guessWho) {
+      case true : 
+        refContainer.current.src = succSong;
+        refContainer.current.play();
+      break;
+
+      case false : 
+        refContainer.current.src = failSong;
+        refContainer.current.play();
+      break;
+
+      default:
+      break;
+    }
+  }, [guessWho]);
+
   useEffect(() => {
     setQuessWho(null);
   }, [answer]);
@@ -40,7 +60,7 @@ const Answer = ({
 
   return loading ?
       <ViewSpinner /> :  
-      <ViewAnswer {...{computeQuessWho, clName, name, id}} />
+      <ViewAnswer {...{computeQuessWho, clName, name, id, refContainer}} />
 };
 
 const mapStateToProps = state => {
@@ -59,13 +79,14 @@ const mapDispatchToProps = {
 
 export default (connect(mapStateToProps, mapDispatchToProps)(Answer));
 
-const ViewAnswer = ({computeQuessWho, clName, name, id}) => {
+const ViewAnswer = ({computeQuessWho, clName, name, id, refContainer}) => {
   return (
     <li className={cl(s.answer, 'list-group-item')}
       onClick={() => computeQuessWho(id)}
     >
       <span className={clName}></span>
       {name}
+      <audio ref={refContainer} className={cl('d-none')}></audio>
     </li>
   )
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 import BtnLevel from '../btn-level';
 import {connect} from 'react-redux';
+import vikorySong from '../../media/victory.mp3';
 import cl from 'classnames';
 
 import s from './game-over.module.scss';
@@ -18,7 +19,7 @@ const GameOver = ({
         <p className={cl('lead')}>Поздравляем!</p>
         <p className={cl('lead')}>Вы прошли викторину и набрали {totalScore} из 30 возможных баллов</p>
         <hr className={cl(s.gameOver_block__hr, 'my-4')} />
-        {totalScore < 30 ? <BtnLevel {...{btnTitle}} /> : <Сongratulation /> }
+        {totalScore < 30 ? <BtnLevel {...{btnTitle}} /> : <Сongratulation {...{vikorySong}} /> }
       </div>
     </div>
   )
@@ -32,7 +33,7 @@ const mapStateToProps = state => {
 
 export default (connect(mapStateToProps)(GameOver));
 
-const Сongratulation = () => {
+const Сongratulation = ({vikorySong}) => {
   return (
     <div className={cl('media', 'mt-3', 'd-flex')}>
       <img src={imgBirding} className={cl('align-self-start')} alt="birding" />
@@ -42,6 +43,7 @@ const Сongratulation = () => {
             Если же этот термин вам еще незнаком, вы можете узнать об этом популярном увлечении
             <a href="https://meduza.io/cards/kak-stat-berdvotcherom"> из статьи Медузы (&copy;)</a></p>
       </div>
+      <audio src={vikorySong} autoPlay="autoplay" className={cl('d-none')}></audio>
     </div>
   )
 }
