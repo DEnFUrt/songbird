@@ -5,7 +5,7 @@ import './player.scss';
 
 const Player = ({src, roundEnded}) => {
   
-  const refContainer = useRef();
+  const refContainer = useRef(null);
   
   if ( roundEnded ) {
     refContainer.current.audio.current.pause();

@@ -41,7 +41,6 @@ export default class ErrorBoundry extends Component {
 	}
 
 	render() {
-
 		if (this.state.error) {
 			return <Error errorData={this.state.errorData} />
 		}

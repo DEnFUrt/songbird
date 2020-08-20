@@ -29,7 +29,7 @@ const AnswersList = ({
   useEffect(() => {
     const randomId = getRandomIntInclusive(1, 6, correctAnswerId);
     
-    console.log(`Правильный ответ ${roundNumber + 1} раунда - ${randomId}`);
+    console.log(`Правильный ответ ${roundNumber + 1}-го раунда - ${randomId}`);
     selectRandomQuestion(randomId);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roundNumber, selectRandomQuestion]);

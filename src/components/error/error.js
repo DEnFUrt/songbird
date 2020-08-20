@@ -13,9 +13,9 @@ const Error = ({errorData}) => {
 
 	return (
 
-		<div className={cl(s.error, 'col-10', 'accordion')} id="accordionExample">
+		<div className={cl(s.error, 'col-10', 'accordion')}>
 			<div className={cl('card', 'bg-dark')}>
-				<div className={cl('card-header')} id="headingOne">
+				<div className={cl('card-header')}>
 					<h5 clasName={cl('mb-0')}>
 						<span className={cl('d-block', 'mt-4')}>
 							Непредвиденная ошибка:
@@ -44,7 +44,6 @@ const Error = ({errorData}) => {
 				</div>
 			</div>
 		</div>
-
 	)
 }
 
