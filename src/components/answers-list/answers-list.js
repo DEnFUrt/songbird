@@ -28,11 +28,25 @@ const AnswersList = ({
 
   useEffect(() => {
     const randomId = getRandomIntInclusive(1, 6, correctAnswerId);
-    
-    console.log(`Правильный ответ ${roundNumber + 1}-го раунда - ${randomId}`);
+
     selectRandomQuestion(randomId);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roundNumber, selectRandomQuestion]);
+
+  // Этот блок только ради вывода в консоль правильного ответа
+  useEffect(() => {
+    if (answers.length !== 0) {
+      const correctAnswer = {
+        ...answers.filter(item => item.id === correctAnswerId)
+        .reduce((acc, item) => ({...acc, ...item}), {})
+      }; 
+      
+      console.log(`Правильный ответ ${roundNumber + 1}-го раунда - ${correctAnswer.name}`);
+    }
+    
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [answers]);
+  // конец блока 
 
   const computeAnswerView = (answers) => {
     if (answers.length === 0) {
@@ -46,7 +60,9 @@ const AnswersList = ({
 
   return (
     <div className="col-md-6">
-      <Lists answerView={computeAnswerView(answers)} />
+      <ul className={cl(s.list_custom, 'list-group', 'bg-dark')}>
+        {computeAnswerView(answers)}
+      </ul>
     </div>
   )
 };
@@ -67,11 +83,3 @@ const mapDispatchToProps = {
 };
 
 export default WithRestService()(connect(mapStateToProps, mapDispatchToProps)(AnswersList));
-
-const Lists = ({answerView}) => {
-  return (
-    <ul className={cl(s.list_custom, 'list-group', 'bg-dark')}>
-      {answerView}
-    </ul>
-  )
-};
